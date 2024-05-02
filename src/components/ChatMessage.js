@@ -1,52 +1,33 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import remarkGfm from 'remark-gfm';
-import moment from 'moment';
-import person from '../assets/person.png';
-import logo from '../assets/logo.png';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import ChatMessage from './ChatMessage';
+import { ChatContext } from '../context/chatContext';
+import { MdSend } from 'react-icons/md';
 
 /**
- * A chat message component that displays a message with a timestamp and an icon.
- *
- * @param {Object} props - The properties for the component.
+ * A chat view component that displays a list of messages and a form for sending new messages.
  */
-const ChatMessage = (props) => {
-  const { id, createdAt, text, ai = false } = props.message;
+const ChatView = () => {
+  const messagesEndRef = useRef();
+  const inputRef = useRef();
+  const [formValue, setFormValue] = useState('');
+  const [messages, addMessage] = useContext(ChatContext);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalPromptOpen, setModalPromptOpen] = useState(false);
+
+  /**
+   * Scrolls the chat area to the bottom.
+   */
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Rest of the component logic...
 
   return (
-    <div key={id} className={`${ai && 'bg-sky-100'} flex-row-reverse message px-10`}>
-      <div className="message__wrapper">
-        <ReactMarkdown
-          className={'message__markdown text-left'}
-          remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
-          components={{
-            code({ node, inline, className, children, ...props }) {
-              // Render code blocks as plain text
-              return (
-                <span>
-                  Bonjour! Comment puis-je vous aider aujourd&apos;hui ?
-                </span>
-              );
-            },
-          }}
-        >
-          {text}
-        </ReactMarkdown>
-
-        <div className="text-left message__createdAt">{moment(createdAt).calendar()}</div>
-      </div>
-
-      <div className="message__pic">
-        <div className="avatar">
-          <div className="w-8 border rounded-full">
-            {ai ? <img width="30" src={logo} alt="Logo" /> : <img src={person} alt="profile pic" />}
-          </div>
-        </div>
-      </div>
+    <div className="chatview">
+      {/* JSX content */}
     </div>
   );
 };
 
-export default ChatMessage;
+export default ChatView;
