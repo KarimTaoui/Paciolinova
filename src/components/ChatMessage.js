@@ -1,33 +1,27 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
-import ChatMessage from './ChatMessage';
-import { ChatContext } from '../context/chatContext';
-import { MdSend } from 'react-icons/md';
+import React from 'react';
+import moment from 'moment';
+import person from '../assets/person.png';
+import logo from '../assets/logo.png';
 
-/**
- * A chat view component that displays a list of messages and a form for sending new messages.
- */
-const ChatView = () => {
-  const messagesEndRef = useRef();
-  const inputRef = useRef();
-  const [formValue, setFormValue] = useState('');
-  const [messages, addMessage] = useContext(ChatContext);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalPromptOpen, setModalPromptOpen] = useState(false);
-
-  /**
-   * Scrolls the chat area to the bottom.
-   */
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  // Rest of the component logic...
+const ChatMessage = (props) => {
+  const { id, createdAt, text, ai = false } = props.message;
 
   return (
-    <div className="chatview">
-      {/* JSX content */}
+    <div key={id} className={`${ai && 'bg-sky-100'} flex-row-reverse message px-10`}>
+      <div className="message__wrapper">
+        <span>Bonjour! Comment puis-je vous aider aujourd&apos;hui ?</span>
+        <div className="text-left message__createdAt">{moment(createdAt).calendar()}</div>
+      </div>
+
+      <div className="message__pic">
+        <div className="avatar">
+          <div className="w-8 border rounded-full">
+            {ai ? <img width="30" src={logo} alt="Logo" /> : <img src={person} alt="profile pic" />}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ChatView;
+export default ChatMessage;
