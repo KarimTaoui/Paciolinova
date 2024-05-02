@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/paciolinova/static/css/main.eaa27b0b.css",
+    "main.js": "/paciolinova/static/js/main.9b66ad22.js",
+    "static/media/Logo.ico": "/paciolinova/static/media/Logo.cc4608d65eeb8c4738e3.ico",
+    "static/media/logo.png": "/paciolinova/static/media/logo.f133725af5caf4bbfe91.png",
+    "index.html": "/paciolinova/index.html",
+    "main.eaa27b0b.css.map": "/paciolinova/static/css/main.eaa27b0b.css.map",
+    "main.9b66ad22.js.map": "/paciolinova/static/js/main.9b66ad22.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eaa27b0b.css",
+    "static/js/main.9b66ad22.js"
+  ]
+}
