@@ -7,7 +7,6 @@ import { Tooltip as ReactTooltip } from 'react-tooltip';
 import Modal from './Modal';
 import Setting from './Setting';
 import PromptPerfect from './PromptPerfect';
-import moment from 'moment';
 import 'moment/locale/fr'; // Importez le module de localisation français
 
 /**
