@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-gfm';
 import moment from 'moment';
 import person from '../assets/person.png';
@@ -22,16 +20,13 @@ const ChatMessage = (props) => {
           className={'message__markdown text-left'}
           remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
           components={{
-            code({ node, inline, className, children, ...props }) {
-              if (inline) {
-                return <code className={className} {...props}>{children}</code>;
-              } else {
-                return (
-                  <SyntaxHighlighter style={oneDark} language={className}>
-                    {String(children).replace(/\n$/, '')}
-                  </SyntaxHighlighter>
-                );
-              }
+            code({ node, inline, className, children }) {
+              // Render code blocks as plain text
+              return (
+                <span>
+                  Bonjour! Comment puis-je vous aider aujourd&apos;hui ?
+                </span>
+              );
             },
           }}
         >
