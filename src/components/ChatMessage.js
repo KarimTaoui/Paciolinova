@@ -20,10 +20,10 @@ const ChatMessage = (props) => {
           className={'message__markdown text-left'}
           remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
           components={{
-            code({ inline, className, children }) {
+            code({ /*inline, className, children*/ }) { // Commented out unused variables
               // Render code blocks as plain text
               return (
-                <span {...props}>
+                <span>
                   Bonjour! Comment puis-je vous aider aujourd&apos;hui ?
                 </span>
               );
