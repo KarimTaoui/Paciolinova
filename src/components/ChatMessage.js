@@ -1,15 +1,43 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import remarkGfm from 'remark-gfm';
 import moment from 'moment';
 import person from '../assets/person.png';
 import logo from '../assets/logo.png';
 
-const ChatMessage = ({ message }) => {
-  const { id, createdAt, ai = false } = message;
+/**
+ * A chat message component that displays a message with a timestamp and an icon.
+ *
+ * @param {Object} props - The properties for the component.
+ */
+const ChatMessage = (props) => {
+  const { id, createdAt, text, ai = false } = props.message;
 
   return (
     <div key={id} className={`${ai && 'bg-sky-100'} flex-row-reverse message px-10`}>
       <div className="message__wrapper">
-        <span>Bonjour! Comment puis-je vous aider aujourd&apos;hui ?</span>
+        <ReactMarkdown
+          className={'message__markdown text-left'}
+          remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
+          components={{
+            code({ node, inline, className, children, ...props }) {
+              if (inline) {
+                return <code className={className} {...props}>{children}</code>;
+              } else {
+                return (
+                  <SyntaxHighlighter style={oneDark} language={className}>
+                    {String(children).replace(/\n$/, '')}
+                  </SyntaxHighlighter>
+                );
+              }
+            },
+          }}
+        >
+          {text}
+        </ReactMarkdown>
+
         <div className="text-left message__createdAt">{moment(createdAt).calendar()}</div>
       </div>
 
