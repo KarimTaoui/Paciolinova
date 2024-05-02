@@ -4,7 +4,7 @@ import person from '../assets/person.png';
 import logo from '../assets/logo.png';
 
 const ChatMessage = (props) => {
-  const { id, createdAt, text, ai = false } = props.message;
+  const { id, createdAt, ai = false } = props.message; // Remove unused variable `text`
 
   return (
     <div key={id} className={`${ai && 'bg-sky-100'} flex-row-reverse message px-10`}>
