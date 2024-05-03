@@ -5,11 +5,6 @@ import moment from 'moment';
 import person from '../assets/person.png';
 import logo from '../assets/logo.png';
 
-/**
- * A chat message component that displays a message with a timestamp and an icon.
- *
- * @param {Object} message - The properties for the component.
- */
 const ChatMessage = ({ message }) => {
   const { id, createdAt, text, ai = false } = message;
 
@@ -20,8 +15,7 @@ const ChatMessage = ({ message }) => {
           className={'message__markdown text-left'}
           remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
           components={{
-            code({}) {
-              // Render code blocks as plain text
+            code({ node, inline, className, children }) { // Removed props
               return (
                 <span>
                   Bonjour! Comment puis-je vous aider aujourd&apos;hui ?
