@@ -15,7 +15,7 @@ const ChatMessage = ({ message }) => {
           className={'message__markdown text-left'}
           remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
           components={{
-            code({ node, inline, className, children }) { // Removed props
+            code() { // Remove unnecessary destructuring
               return (
                 <span>
                   Bonjour! Comment puis-je vous aider aujourd&apos;hui ?
@@ -42,3 +42,4 @@ const ChatMessage = ({ message }) => {
 };
 
 export default ChatMessage;
+
