@@ -8,7 +8,7 @@ import logo from '../assets/logo.png';
 /**
  * A chat message component that displays a message with a timestamp and an icon.
  *
- * @param {Object} message - The message object containing id, createdAt, text, and ai properties.
+ * @param {Object} message - The properties for the component.
  */
 const ChatMessage = ({ message }) => {
   const { id, createdAt, text, ai = false } = message;
