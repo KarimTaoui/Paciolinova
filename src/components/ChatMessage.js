@@ -8,10 +8,10 @@ import logo from '../assets/logo.png';
 /**
  * A chat message component that displays a message with a timestamp and an icon.
  *
- * @param {Object} props - The properties for the component.
+ * @param {Object} message - The message object containing id, createdAt, text, and ai properties.
  */
-const ChatMessage = (props) => {
-  const { id, createdAt, text, ai = false } = props.message;
+const ChatMessage = ({ message }) => {
+  const { id, createdAt, text, ai = false } = message;
 
   return (
     <div key={id} className={`${ai && 'bg-sky-100'} flex-row-reverse message px-10`}>
@@ -20,7 +20,7 @@ const ChatMessage = (props) => {
           className={'message__markdown text-left'}
           remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
           components={{
-            code({ node, inline, className, children,...props }) {
+            code({ node, inline, className, children, ...props }) {
               // Render code blocks as plain text
               return (
                 <span>
