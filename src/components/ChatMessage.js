@@ -10,8 +10,8 @@ import logo from '../assets/logo.png';
  *
  * @param {Object} message - The properties for the component.
  */
-const ChatMessage = (props) => {
-  const { id, createdAt, text, ai = false } = props.message;
+const ChatMessage = ({ message }) => {
+  const { id, createdAt, text, ai = false } = message;
 
   return (
     <div key={id} className={`${ai && 'bg-sky-100'} flex-row-reverse message px-10`}>
