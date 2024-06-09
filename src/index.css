@@ -130,27 +130,36 @@
     @apply opacity-40 transition ease-in duration-300 text-center text-base font-semibold shadow-md;
   }
 
-  /* ChatMessage */
-  .message {
-    @apply py-5 gap-2 flex items-start justify-end;
-  }
+/* ChatMessage */
+.message {
+  @apply py-5 gap-2 flex items-start;
+}
 
-  .message__wrapper {
-    @apply flex-grow w-screen flex-wrap overflow-hidden;
-  }
+.message--chatbot {
+  @apply bg-blue-100; /* Couleur de fond pour les messages du chatbot */
+}
 
-  .message__markdown {
-    @apply text-sm text-slate-700 whitespace-pre-wrap dark:text-slate-200;
-  }
+.message--user {
+  @apply bg-gray-200; /* Couleur de fond pour les messages de l'utilisateur */
+}
 
-  .message__createdAt {
-    font-size: 10px;
-    @apply font-thin italic text-slate-600 dark:text-slate-300;
-  }
+.message__wrapper {
+  @apply flex-grow flex-wrap overflow-hidden;
+}
 
-  .message__pic {
-    @apply h-8 w-8 bg-slate-200 mx-2 rounded-full flex items-center justify-center text-xl;
-  }
+.message__markdown {
+  @apply text-sm text-slate-700 whitespace-pre-wrap dark:text-slate-200;
+}
+
+.message__createdAt {
+  font-size: 10px;
+  @apply font-thin italic text-slate-600 dark:text-slate-300;
+}
+
+.message__pic {
+  @apply h-8 w-8 bg-slate-200 mx-2 rounded-full flex items-center justify-center text-xl;
+}
+
 
   .message__thinking {
     @apply animate-pulse duration-1000 h-12 w-12 dark:text-white text-black text-xl;
