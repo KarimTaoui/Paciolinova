@@ -9,16 +9,13 @@ const ChatMessage = ({ message }) => {
   const { id, createdAt, text, ai = false } = message;
 
   return (
-    <div
-      key={id}
-      className={`message px-10 ${ai ? 'message--chatbot' : 'message--user'} ${ai ? 'flex-row' : 'flex-row-reverse'}`}
-    >
+    <div key={id} className={`${ai && 'bg-sky-100'} flex-row-reverse message px-10`}>
       <div className="message__wrapper">
         <ReactMarkdown
-          className="message__markdown text-left"
+          className={'message__markdown text-left'}
           remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
           components={{
-            code() {
+            code() { // Remove unnecessary destructuring
               return (
                 <span>
                   Bonjour! Comment puis-je vous aider aujourd&apos;hui ?
@@ -30,19 +27,13 @@ const ChatMessage = ({ message }) => {
           {text}
         </ReactMarkdown>
 
-        <div className="text-left message__createdAt">
-          {moment(createdAt).calendar()}
-        </div>
+        <div className="text-left message__createdAt">{moment(createdAt).calendar()}</div>
       </div>
 
       <div className="message__pic">
         <div className="avatar">
           <div className="w-8 border rounded-full">
-            {ai ? (
-              <img width="30" src={logo} alt="Logo" />
-            ) : (
-              <img src={person} alt="profile pic" />
-            )}
+            {ai ? <img width="30" src={logo} alt="Logo" /> : <img src={person} alt="profile pic" />}
           </div>
         </div>
       </div>
