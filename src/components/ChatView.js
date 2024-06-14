@@ -7,11 +7,8 @@ import { Tooltip as ReactTooltip } from 'react-tooltip';
 import Modal from './Modal';
 import Setting from './Setting';
 import PromptPerfect from './PromptPerfect';
-import 'moment/locale/fr'; // Importez le module de localisation français
+import 'moment/locale/fr'; // Import the French localization module
 
-/**
- * A chat view component that displays a list of messages and a form for sending new messages.
- */
 const ChatView = () => {
   const messagesEndRef = useRef();
   const inputRef = useRef();
@@ -21,20 +18,13 @@ const ChatView = () => {
   const [messages, addMessage] = useContext(ChatContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalPromptOpen, setModalPromptOpen] = useState(false);
+  const [promptSuggestions, setPromptSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  /**
-   * Scrolls the chat area to the bottom.
-   */
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  /**
-   * Adds a new message to the chat.
-   *
-   * @param {string} newValue - The text of the new message.
-   * @param {boolean} [ai=false] - Whether the message was sent by an AI or the user.
-   */
   const updateMessage = (newValue, ai = false) => {
     const id = Date.now() + Math.floor(Math.random() * 1000000);
     const newMsg = {
@@ -47,21 +37,16 @@ const ChatView = () => {
     addMessage(newMsg);
   };
 
-  /**
-   * Sends our prompt to our API and get response to our request from openai.
-   *
-   * @param {Event} e - The submit event of the form.
-   */
   const sendMessage = async (e) => {
     e.preventDefault();
     if (!formValue) return;
-  
+
     const cleanPrompt = formValue.trim();
-  
-    const newMsg = cleanPrompt;
     setFormValue('');
-    updateMessage(newMsg, false);
-  
+    updateMessage(cleanPrompt, false);
+
+    setLoading(true);
+
     try {
       const response = await fetch('https://karimou-74f1922470da.herokuapp.com/chatbot', {
         method: 'POST',
@@ -70,26 +55,27 @@ const ChatView = () => {
         },
         body: JSON.stringify({ message: cleanPrompt }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Request failed');
       }
-  
+
       const responseData = await response.json();
       const botResponse = responseData.response[0].text;
-  
+
       console.log('response:', botResponse);
-  
+
       updateMessage(botResponse, true);
     } catch (error) {
       console.error('Error fetching data:', error);
+      updateMessage("Sorry, there was an error processing your request.", true);
+    } finally {
+      setLoading(false);
     }
   };
-  
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      // 👇 Get input value
       sendMessage(e);
       inputRef.current.style.height = 'auto';
     }
@@ -97,6 +83,25 @@ const ChatView = () => {
 
   const handleChange = (event) => {
     setFormValue(event.target.value);
+  };
+
+  const fetchPromptSuggestions = () => {
+    const suggestions = [
+      "What are the latest trends in technology?",
+      "Can you tell me a fun fact about space?",
+      "How can I improve my productivity?"
+    ];
+    setPromptSuggestions(suggestions);
+    setShowSuggestions(true);
+  };
+
+  const handleLightbulbClick = () => {
+    fetchPromptSuggestions();
+  };
+
+  const handleSuggestionSelect = (suggestion) => {
+    setFormValue(suggestion);
+    setShowSuggestions(false);
   };
 
   const updatePrompt = async () => {
@@ -137,16 +142,10 @@ const ChatView = () => {
     setModalPromptOpen(false);
   };
 
-  /**
-   * Scrolls the chat area to the bottom when the messages array is updated.
-   */
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, loading]);
 
-  /**
-   * Focuses the TextArea input to when the component is first rendered.
-   */
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -156,12 +155,21 @@ const ChatView = () => {
     inputRef.current.style.height = inputRef.current.scrollHeight + 'px';
   }, [formValue]);
 
-
   return (
     <div className="chatview">
       <main className="chatview__chatarea">
         {messages.map((message, index) => (
-          <ChatMessage key={index} message={{ ...message }} />
+          <React.Fragment key={index}>
+            <ChatMessage message={{ ...message }} />
+            {index === messages.length - 1 && loading && (
+              <div className="chatview__typing-indicator">
+                <div className="typing-circle"></div>
+                <span className="typing-text">
+                  <span>.</span><span>.</span><span>.</span>
+                </span>
+              </div>
+            )}
+          </React.Fragment>
         ))}
         <span ref={messagesEndRef}></span>
       </main>
@@ -176,26 +184,15 @@ const ChatView = () => {
             onChange={handleChange}
           />
           <div className="flex items-center">
-            <button type="submit" className="chatview__btn-send" disabled={!formValue}>
+            <button type="submit" className="chatview__btn-send" disabled={!formValue || loading}>
               <MdSend size={30} />
             </button>
-            <div
-              className="loading-spinner"
-              style={{ marginLeft: '10px', display: loading ? 'flex' : 'none', alignItems: 'center', position: 'relative' }}
-            >
-              <div className="dot1"></div>
-              <div className="dot2"></div>
-              <div className="dot3"></div>
-              <span className="typing-text" style={{ marginLeft: '10px', color: '#4CAF50', fontSize: '14px' }}>
-                Chatbot is typing...
-              </span>
-            </div>
             <button
               id="tooltip"
               type="button"
               className="chatview__btn-send"
               disabled={!formValue}
-              onClick={updatePrompt}
+              onClick={handleLightbulbClick}
             >
               <MdLightbulbOutline size={30} />
             </button>
@@ -207,6 +204,9 @@ const ChatView = () => {
           variant="dark"
           content="Help me with this prompt!"
         />
+        {showSuggestions && (
+          <PromptSuggestions suggestions={promptSuggestions} onSelect={handleSuggestionSelect} />
+        )}
       </form>
       <Modal title="Setting" modalOpen={modalOpen} setModalOpen={setModalOpen}>
         <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
@@ -219,6 +219,18 @@ const ChatView = () => {
           onUseClicked={handleUseClicked}
         />
       </Modal>
+    </div>
+  );
+};
+
+const PromptSuggestions = ({ suggestions, onSelect }) => {
+  return (
+    <div className="prompt-suggestions">
+      {suggestions.map((suggestion, index) => (
+        <div key={index} onClick={() => onSelect(suggestion)} className="suggestion">
+          {suggestion}
+        </div>
+      ))}
     </div>
   );
 };
