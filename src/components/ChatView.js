@@ -13,11 +13,11 @@ const ChatView = () => {
   const messagesEndRef = useRef();
   const inputRef = useRef();
   const [formValue, setFormValue] = useState('');
-  const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [messages, addMessage] = useContext(ChatContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalPromptOpen, setModalPromptOpen] = useState(false);
+  const [prompt, setPrompt] = useState(''); // Define prompt state
   const [promptSuggestions, setPromptSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -104,41 +104,8 @@ const ChatView = () => {
     setShowSuggestions(false);
   };
 
-  const updatePrompt = async () => {
-    const api = 'https://us-central1-prompt-ops.cloudfunctions.net/optimize';
-    const secretKey = process.env.REACT_APP_API_KEY;
-
-    try {
-      setLoading(true);
-      const response = await fetch(api, {
-        headers: {
-          'x-api-key': `token ${secretKey}`,
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: {
-            prompt: formValue.trim(),
-            targetModel: 'chatgpt',
-          },
-        }),
-        method: 'POST',
-      });
-      if (!response.ok) {
-        throw new Error('Request failed');
-      }
-
-      const responseData = await response.json();
-      setPrompt(responseData.result.promptOptimized);
-      setLoading(false);
-      setModalPromptOpen(true);
-    } catch (e) {
-      console.error(e);
-      setLoading(false);
-    }
-  };
-
   const handleUseClicked = () => {
-    setFormValue(prompt);
+    setFormValue(prompt); // Update formValue with prompt value
     setModalPromptOpen(false);
   };
 
