@@ -40,7 +40,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app"
+      "Paciolinova"
     ]
   },
   "browserslist": {
