@@ -146,5 +146,4 @@ const SideBar = () => {
     </section>
   );
 };
-
 export default SideBar;
