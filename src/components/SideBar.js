@@ -130,7 +130,7 @@ const SideBar = () => {
       </Modal>
 
       {/* Help Modal */}
-      <Modal title="Aide" modalOpen={helpModalOpen} setModalOpen={setHelpModalOpen}>
+      <Modal title="À propos de Rahima" modalOpen={helpModalOpen} setModalOpen={setHelpModalOpen}>
         <div className="p-4">
         <p>Rahima est un chatbot spécialisé dans le domaine de la comptabilité en Algérie Voici quelques-unes des fonctionnalités de Rahima :</p><br />
         <p><strong>Assistance à la navigation :</strong> Rahima peut répondre aux questions courantes sur les comptes SCF </p><br />
