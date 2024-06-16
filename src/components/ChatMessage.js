@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import moment from 'moment';
@@ -6,41 +6,38 @@ import { MdThumbUp, MdThumbDown, MdVolumeUp, MdContentCopy } from 'react-icons/m
 import person from '../assets/person.png';
 import logo from '../assets/logo.png';
 
-const ChatMessage = (props) => {
-  const { id, createdAt, text, ai = false } = props.message;
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
-  const [liked, setLiked] = useState(false);
-  const [disliked, setDisliked] = useState(false);
+const ChatMessage = ({ message }) => {
+  const { id, createdAt, text, ai = false } = message;
+  const [feedback, setFeedback] = useState({ likes: 0, dislikes: 0, liked: false, disliked: false });
   const [voiceRead, setVoiceRead] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const handleLike = () => {
-    if (!liked) {
-      setLikes(likes + 1);
-      setLiked(true);
-      if (disliked) {
-        setDislikes(dislikes - 1);
-        setDisliked(false);
+    setFeedback((prev) => {
+      if (!prev.liked) {
+        return {
+          likes: prev.likes + 1,
+          dislikes: prev.disliked ? prev.dislikes - 1 : prev.dislikes,
+          liked: true,
+          disliked: false,
+        };
       }
-    } else {
-      setLikes(likes - 1);
-      setLiked(false);
-    }
+      return { ...prev, likes: prev.likes - 1, liked: false };
+    });
   };
 
   const handleDislike = () => {
-    if (!disliked) {
-      setDislikes(dislikes + 1);
-      setDisliked(true);
-      if (liked) {
-        setLikes(likes - 1);
-        setLiked(false);
+    setFeedback((prev) => {
+      if (!prev.disliked) {
+        return {
+          dislikes: prev.dislikes + 1,
+          likes: prev.liked ? prev.likes - 1 : prev.likes,
+          disliked: true,
+          liked: false,
+        };
       }
-    } else {
-      setDislikes(dislikes - 1);
-      setDisliked(false);
-    }
+      return { ...prev, dislikes: prev.dislikes - 1, disliked: false };
+    });
   };
 
   const handleReadAloud = () => {
@@ -53,18 +50,28 @@ const ChatMessage = (props) => {
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+      setTimeout(() => setCopied(false), 2000);
     });
   };
+
+  const avatar = useMemo(() => {
+    return (
+      <div className="avatar">
+        <div className="w-8 border rounded-full">
+          {ai ? <img width="30" src={logo} alt="Logo" /> : <img src={person} alt="profile pic" />}
+        </div>
+      </div>
+    );
+  }, [ai]);
 
   return (
     <div key={id} className={`${ai && 'bg-sky-100'} flex-row-reverse message px-10`}>
       <div className="message__wrapper">
         <ReactMarkdown
-          className={'message__markdown text-left'}
+          className="message__markdown text-left"
           remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
           components={{
-            code({ node, inline, className, children, ...props }) {
+            code() {
               return (
                 <span>
                   Bonjour! Comment puis-je vous aider aujourd&apos;hui ?
@@ -81,26 +88,30 @@ const ChatMessage = (props) => {
         {ai && (
           <div className="message__feedback mt-2">
             <button
-              className={`message__feedback-button ${liked ? 'clicked' : ''}`}
+              className={`message__feedback-button ${feedback.liked ? 'clicked' : ''}`}
               onClick={handleLike}
+              aria-label="Like"
             >
               <MdThumbUp className="message__feedback-icon" size={20} />
             </button>
             <button
-              className={`message__feedback-button ${disliked ? 'disliked' : ''}`}
+              className={`message__feedback-button ${feedback.disliked ? 'disliked' : ''}`}
               onClick={handleDislike}
+              aria-label="Dislike"
             >
               <MdThumbDown className="message__feedback-icon" size={20} />
             </button>
             <button
               className={`message__feedback-button voice-read ${voiceRead ? 'clicked' : ''}`}
               onClick={handleReadAloud}
+              aria-label="Read aloud"
             >
               <MdVolumeUp className="message__feedback-icon" size={20} />
             </button>
             <button
               className={`message__feedback-button copy ${copied ? 'clicked' : ''}`}
               onClick={handleCopyToClipboard}
+              aria-label="Copy to clipboard"
             >
               <MdContentCopy className="message__feedback-icon" size={20} />
             </button>
@@ -109,11 +120,7 @@ const ChatMessage = (props) => {
       </div>
 
       <div className="message__pic">
-        <div className="avatar">
-          <div className="w-8 border rounded-full">
-            {ai ? <img width="30" src={logo} alt="Logo" /> : <img src={person} alt="profile pic" />}
-          </div>
-        </div>
+        {avatar}
       </div>
     </div>
   );
