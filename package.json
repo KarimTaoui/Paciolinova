@@ -20,7 +20,7 @@
     "react-scripts": "5.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "react-tooltip": "^5.16.1",
-    "remark-gfm": "^3.0.1"
+    "remark-gfm": "^3.0.1",
     "react-player": "2.9.0"
   },
   "scripts": {
