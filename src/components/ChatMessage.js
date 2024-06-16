@@ -50,6 +50,7 @@ const ChatMessage = ({ message }) => {
 
   const handleReadAloud = () => {
     const speechText = new SpeechSynthesisUtterance(text);
+    speechText.lang = 'fr-FR';
     speechSynthesis.speak(speechText);
     setVoiceRead(true);
     setTimeout(() => setVoiceRead(false), 2000);
