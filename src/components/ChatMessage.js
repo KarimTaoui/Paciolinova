@@ -1,16 +1,24 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import moment from 'moment';
 import { MdThumbUp, MdThumbDown, MdVolumeUp, MdContentCopy } from 'react-icons/md';
 import person from '../assets/person.png';
 import logo from '../assets/logo.png';
+import notificationSound from '../assets/notification.mp3';
 
 const ChatMessage = ({ message }) => {
   const { id, createdAt, text, ai = false } = message;
   const [feedback, setFeedback] = useState({ likes: 0, dislikes: 0, liked: false, disliked: false });
   const [voiceRead, setVoiceRead] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (ai) {
+      const audio = new Audio(notificationSound);
+      audio.play();
+    }
+  }, [ai]);
 
   const handleLike = () => {
     setFeedback((prev) => {
