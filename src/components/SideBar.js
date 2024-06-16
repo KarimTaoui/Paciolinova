@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { MdChevronLeft, MdChevronRight, MdAdd, MdHelpOutline, MdAttachMoney, MdAccountBalance, MdReceipt } from 'react-icons/md';
+import { MdChevronLeft, MdChevronRight, MdAdd, MdHelpOutline, MdAttachMoney, MdAccountBalance, MdReceipt, MdVideoLibrary } from 'react-icons/md';
 import { ChatContext } from '../context/chatContext';
 import logo from '../assets/logo.png';
 import Modal from './Modal';
 import Setting from './Setting';
+import ReactPlayer from 'react-player';
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
@@ -11,6 +12,7 @@ const SideBar = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [devModalOpen, setDevModalOpen] = useState(false);
   const [helpModalOpen, setHelpModalOpen] = useState(false); // State for help modal
+  const [videoModalOpen, setVideoModalOpen] = useState(false); // State for video modal
 
   function handleResize() {
     setOpen(window.innerWidth > 720);
@@ -29,6 +31,8 @@ const SideBar = () => {
   const handleDevModal = () => setDevModalOpen(true);
 
   const openHelpModal = () => setHelpModalOpen(true); // Function to open help modal
+
+  const openVideoModal = () => setVideoModalOpen(true); // Function to open video modal
 
   return (
     <section className={`sidebar ${open ? 'w-screen lg:w-96' : 'w-16'}`}>
@@ -117,6 +121,20 @@ const SideBar = () => {
             <h1 className={`${!open && 'hidden'}`}>À propos de Rahima</h1>
           </span>
         </div>
+
+        {/* Nouveau bouton pour la vidéo */}
+        <div onClick={openVideoModal} className="nav">
+          <span 
+            className="nav__item"
+            aria-label="Vidéo explicative"
+            title="Vidéo explicative"
+          >
+            <div className="nav__icons">
+              <MdVideoLibrary />
+            </div>
+            <h1 className={`${!open && 'hidden'}`}>Vidéo explicative</h1>
+          </span>
+        </div>
       </div>
 
       <Modal title="Paramètres" modalOpen={modalOpen} setModalOpen={setModalOpen}>
@@ -132,18 +150,24 @@ const SideBar = () => {
       {/* Help Modal */}
       <Modal title="À propos de Rahima" modalOpen={helpModalOpen} setModalOpen={setHelpModalOpen}>
         <div className="p-4">
-        <p>Rahima est un chatbot spécialisé dans le domaine de la comptabilité en Algérie Voici quelques-unes des fonctionnalités de Rahima :</p><br />
-        <p><strong>Assistance à la navigation :</strong> Rahima peut répondre aux questions courantes sur les comptes SCF </p><br />
-        <p><strong>Calculs financiers :</strong> Rahima est capable d effectuer divers calculs financiers, facilitant ainsi la gestion des finances pour les utilisateurs.</p><br />
-        <p><strong>Récupération d informations :</strong> Elle peut fournir des informations spécifiques sur demande, comme les réglementations comptables, les taux d imposition, etc.</p><br />
-        <p><strong>Notifications et alertes :</strong> Rahima peut envoyer des notifications importantes et des alertes aux utilisateurs pour les tenir informés des changements et mises à jour.</p><br />
-        
-        
+          <p>Rahima est un chatbot spécialisé dans le domaine de la comptabilité en Algérie. Voici quelques-unes des fonctionnalités de Rahima :</p>
+          {/* Détails sur Rahima */}
+        </div>
+      </Modal>
 
-
+      {/* Video Modal */}
+      <Modal title="Vidéo explicative" modalOpen={videoModalOpen} setModalOpen={setVideoModalOpen}>
+        <div className="p-4">
+          <ReactPlayer
+            url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Remplacez par votre URL de vidéo
+            controls
+            width="100%"
+            height="100%"
+          />
         </div>
       </Modal>
     </section>
   );
 };
+
 export default SideBar;
