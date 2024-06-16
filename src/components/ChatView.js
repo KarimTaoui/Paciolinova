@@ -1,3 +1,5 @@
+// ChatView.js
+
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import ChatMessage from './ChatMessage';
 import { ChatContext } from '../context/chatContext';
@@ -63,8 +65,6 @@ const ChatView = () => {
       const responseData = await response.json();
       const botResponse = responseData.response[0].text;
 
-      console.log('response:', botResponse);
-
       updateMessage(botResponse, true);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -127,7 +127,7 @@ const ChatView = () => {
       <main className="chatview__chatarea">
         {messages.map((message, index) => (
           <React.Fragment key={index}>
-            <ChatMessage message={{ ...message }} />
+            <ChatMessage message={message} />
             {index === messages.length - 1 && loading && (
               <div className="chatview__typing-indicator">
                 <div className="typing-circle"></div>
