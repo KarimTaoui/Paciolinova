@@ -109,12 +109,12 @@ const SideBar = () => {
           <span 
             className="nav__item"
             aria-label="Aide"
-            title="Aide"
+            title="À propos de Rahima"
           >
             <div className="nav__icons">
               <MdHelpOutline />
             </div>
-            <h1 className={`${!open && 'hidden'}`}>Aide</h1>
+            <h1 className={`${!open && 'hidden'}`}>À propos de Rahima</h1>
           </span>
         </div>
       </div>
