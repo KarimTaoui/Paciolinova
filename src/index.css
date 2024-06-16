@@ -245,3 +245,45 @@
     transform: translateY(0); /* Retour à la position de départ */
   }
 }
+/* styles.css */
+
+/* styles.css */
+
+.message__feedback {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.message__feedback-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 4px; /* Adjust padding for button size */
+}
+
+.message__feedback-button:hover {
+  transform: scale(1.1);
+}
+
+.message__feedback-icon {
+  stroke: #000; /* Black stroke */
+  fill: inherit; /* Transparent fill */
+  transition: fill 0.2s; /* Smooth transition for fill color change */
+}
+.message__feedback-button.clicked .message__feedback-icon {
+  fill: #4caf50; /* Green color for like */
+}
+
+.message__feedback-button.disliked .message__feedback-icon {
+  fill: #f44336; /* Red color for dislike */
+}
+/* New styles for voice read button */
+.message__feedback-button.voice-read .message__feedback-icon {
+  fill: #1c1d1d; /* Blue color for voice read button */
+}
+
+.message__feedback-button.voice-read.clicked .message__feedback-icon {
+  fill: #ff8c00; /* Orange color when voice read button is clicked */
+}
