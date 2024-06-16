@@ -13,6 +13,8 @@ const SideBar = () => {
   const [devModalOpen, setDevModalOpen] = useState(false);
   const [helpModalOpen, setHelpModalOpen] = useState(false); // State for help modal
   const [videoModalOpen, setVideoModalOpen] = useState(false); // State for video modal
+  const [videoUrl, setVideoUrl] = useState(''); // State to store video URL
+  const [videoPlaying, setVideoPlaying] = useState(false); // State to track if video is playing
 
   function handleResize() {
     setOpen(window.innerWidth > 720);
@@ -32,7 +34,21 @@ const SideBar = () => {
 
   const openHelpModal = () => setHelpModalOpen(true); // Function to open help modal
 
-  const openVideoModal = () => setVideoModalOpen(true); // Function to open video modal
+  const openVideoModal = (url) => {
+    setVideoUrl(url);
+    setVideoPlaying(true);
+    setVideoModalOpen(true);
+  }
+
+  const handleCloseVideoModal = () => {
+    setVideoPlaying(false);
+    setVideoModalOpen(false);
+    setVideoUrl('');
+  }
+
+  const handleVideoEnded = () => {
+    setVideoPlaying(false);
+  }
 
   return (
     <section className={`sidebar ${open ? 'w-screen lg:w-96' : 'w-16'}`}>
@@ -123,7 +139,7 @@ const SideBar = () => {
         </div>
 
         {/* Nouveau bouton pour la vidéo */}
-        <div onClick={openVideoModal} className="nav">
+        <div onClick={() => openVideoModal("https://www.youtube.com/watch?v=o9-ObGgfpEk")} className="nav">
           <span 
             className="nav__item"
             aria-label="Vidéo explicative"
@@ -156,14 +172,18 @@ const SideBar = () => {
       </Modal>
 
       {/* Video Modal */}
-      <Modal title="Vidéo explicative" modalOpen={videoModalOpen} setModalOpen={setVideoModalOpen}>
+      <Modal title="Vidéo explicative" modalOpen={videoModalOpen} setModalOpen={handleCloseVideoModal}>
         <div className="p-4">
-          <ReactPlayer
-            url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Remplacez par votre URL de vidéo
-            controls
-            width="100%"
-            height="100%"
-          />
+          {videoUrl && (
+            <ReactPlayer
+              url={videoUrl}
+              playing={videoPlaying}
+              controls
+              width="100%"
+              height="400px" // Adjust height as needed
+              onEnded={handleVideoEnded}
+            />
+          )}
         </div>
       </Modal>
     </section>
