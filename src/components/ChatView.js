@@ -1,9 +1,7 @@
-// ChatView.js
-
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import ChatMessage from './ChatMessage';
 import { ChatContext } from '../context/chatContext';
-import { MdSend, MdLightbulbOutline } from 'react-icons/md';
+import { MdSend, MdMic, MdLightbulbOutline } from 'react-icons/md'; // Changed icon to MdLightbulbOutline
 import 'react-tooltip/dist/react-tooltip.css';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import Modal from './Modal';
@@ -14,14 +12,21 @@ import 'moment/locale/fr'; // Import the French localization module
 const ChatView = () => {
   const messagesEndRef = useRef();
   const inputRef = useRef();
+  const suggestionsRef = useRef(); // Ref to track the suggestions dropdown
   const [formValue, setFormValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [messages, addMessage] = useContext(ChatContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalPromptOpen, setModalPromptOpen] = useState(false);
-  const [prompt, setPrompt] = useState(''); // Define prompt state
-  const [promptSuggestions, setPromptSuggestions] = useState([]);
+  const [prompt, setPrompt] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [promptSuggestions] = useState([
+    "Calculer la formule de ....",
+    "donne-moi le compte numéro 103",
+    "quelle est la définition de la comptabilité ?"
+  ]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [activeButton, setActiveButton] = useState(null); // Track active button state
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -39,11 +44,12 @@ const ChatView = () => {
     addMessage(newMsg);
   };
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    if (!formValue) return;
+  const sendMessage = async (e, inputMessage) => {
+    if (e) e.preventDefault();
+    const messageToSend = inputMessage || formValue;
+    if (!messageToSend) return;
 
-    const cleanPrompt = formValue.trim();
+    const cleanPrompt = messageToSend.trim();
     setFormValue('');
     updateMessage(cleanPrompt, false);
 
@@ -71,6 +77,7 @@ const ChatView = () => {
       updateMessage("Sorry, there was an error processing your request.", true);
     } finally {
       setLoading(false);
+      setActiveButton(null); // Reset active button after sending message
     }
   };
 
@@ -85,28 +92,47 @@ const ChatView = () => {
     setFormValue(event.target.value);
   };
 
-  const fetchPromptSuggestions = () => {
-    const suggestions = [
-      "What are the latest trends in technology?",
-      "Can you tell me a fun fact about space?",
-      "How can I improve my productivity?"
-    ];
-    setPromptSuggestions(suggestions);
-    setShowSuggestions(true);
-  };
+  const handleVoiceInput = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Votre navigateur ne supporte pas la reconnaissance vocale.");
+      return;
+    }
 
-  const handleLightbulbClick = () => {
-    fetchPromptSuggestions();
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'fr-FR';
+
+    recognition.onstart = () => {
+      setIsRecording(true); 
+    };
+
+    recognition.onend = () => {
+      setIsRecording(false); 
+      setActiveButton(null); // Reset active button
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      sendMessage(null, transcript);
+    };
+
+    recognition.start();
+    setActiveButton('mic'); // Set active button
   };
 
   const handleSuggestionSelect = (suggestion) => {
-    setFormValue(suggestion);
+    sendMessage(null, suggestion);
     setShowSuggestions(false);
   };
 
   const handleUseClicked = () => {
-    setFormValue(prompt); // Update formValue with prompt value
+    setFormValue(prompt);
     setModalPromptOpen(false);
+  };
+
+  const handlePromptSuggestions = () => {
+    setShowSuggestions(!showSuggestions); // Toggle suggestions dropdown visibility
+    setActiveButton('lightbulb'); // Set active button
   };
 
   useEffect(() => {
@@ -121,6 +147,25 @@ const ChatView = () => {
     inputRef.current.style.height = 'auto';
     inputRef.current.style.height = inputRef.current.scrollHeight + 'px';
   }, [formValue]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+        setActiveButton(null); // Reset active button when clicking outside
+      }
+    };
+
+    if (showSuggestions) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSuggestions]);
 
   return (
     <div className="chatview">
@@ -140,7 +185,7 @@ const ChatView = () => {
         ))}
         <span ref={messagesEndRef}></span>
       </main>
-      <form className="form" onSubmit={sendMessage}>
+      <form className="form" onSubmit={(e) => sendMessage(e)}>
         <div className="flex items-stretch justify-between w-full">
           <textarea
             ref={inputRef}
@@ -150,19 +195,44 @@ const ChatView = () => {
             onKeyDown={handleKeyDown}
             onChange={handleChange}
           />
-          <div className="flex items-center">
-            <button type="submit" className="chatview__btn-send" disabled={!formValue || loading}>
-              <MdSend size={30} />
+          <div className="flex items-center relative">
+            <button
+              type="submit"
+              className={`chatview__btn-send ${activeButton === 'send' ? 'active' : ''}`}
+              disabled={!formValue || loading}
+              onClick={() => setActiveButton('send')}
+            >
+              <MdSend size={30} className={activeButton === 'send' ? 'active-icon' : ''} />
             </button>
             <button
-              id="tooltip"
               type="button"
-              className="chatview__btn-send"
-              disabled={!formValue}
-              onClick={handleLightbulbClick}
+              className={`chatview__btn-send ${isRecording ? 'recording' : ''} ${activeButton === 'mic' ? 'active' : ''}`}
+              onClick={handleVoiceInput}
             >
-              <MdLightbulbOutline size={30} />
+              <MdMic size={30} className={activeButton === 'mic' ? 'active-icon' : ''} />
             </button>
+            <div className="relative">
+              <button
+                type="button"
+                className={`chatview__btn-send ${activeButton === 'lightbulb' ? 'active' : ''}`}
+                onClick={handlePromptSuggestions}
+              >
+                <MdLightbulbOutline size={30} className={activeButton === 'lightbulb' ? 'active-icon' : ''} />
+              </button>
+              {showSuggestions && (
+                <div className="suggestions-dropdown" ref={suggestionsRef}>
+                  {promptSuggestions.map((suggestion, index) => (
+                    <div
+                      key={index}
+                      className="suggestion"
+                      onClick={() => handleSuggestionSelect(suggestion)}
+                    >
+                      {suggestion}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
         <ReactTooltip
@@ -171,14 +241,11 @@ const ChatView = () => {
           variant="dark"
           content="Help me with this prompt!"
         />
-        {showSuggestions && (
-          <PromptSuggestions suggestions={promptSuggestions} onSelect={handleSuggestionSelect} />
-        )}
       </form>
       <Modal title="Setting" modalOpen={modalOpen} setModalOpen={setModalOpen}>
         <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
       </Modal>
-      <Modal title="Prompt Perfect" modalOpen={modalPromptOpen} setModalOpen={setModalPromptOpen}>
+      <Modal title="Prompt Perfect" modalOpen={modalPromptOpen} setModalPromptOpen={setModalPromptOpen}>
         <PromptPerfect
           prompt={prompt}
           onChange={setPrompt}
@@ -186,18 +253,6 @@ const ChatView = () => {
           onUseClicked={handleUseClicked}
         />
       </Modal>
-    </div>
-  );
-};
-
-const PromptSuggestions = ({ suggestions, onSelect }) => {
-  return (
-    <div className="prompt-suggestions">
-      {suggestions.map((suggestion, index) => (
-        <div key={index} onClick={() => onSelect(suggestion)} className="suggestion">
-          {suggestion}
-        </div>
-      ))}
     </div>
   );
 };
