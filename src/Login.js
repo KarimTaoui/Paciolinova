@@ -19,7 +19,7 @@ const Login = ({ onLogin }) => {
       if (username === 'admin' && password === 'admin') {
         onLogin();
       } else {
-        setError('Nom d\'utilisateur ou mot de passe incorrect');
+        setError("Nom d&apos;utilisateur ou mot de passe incorrect");
       }
       setLoading(false);
     }, 1000);
@@ -33,11 +33,11 @@ const Login = ({ onLogin }) => {
       <div className="absolute inset-0 bg-black opacity-10"></div>
 
       {/* Login Layout */}
-      <div className="relative max-w-6xl w-full bg-white bg-opacity-99 rounded-lg overflow-hidden flex flex-col md:flex-row z-10 shadow-2xl">
+      <div className="relative max-w-6xl w-full bg-white rounded-lg overflow-hidden flex flex-col md:flex-row z-10 shadow-2xl" style={{ border: '8px solid white', boxShadow: '0 0 0 4px black' }}>
 
         {/* Left Section - Slideshow with 3D Double Border */}
         <div className="md:w-1/2 relative overflow-hidden" style={{ height: '500px' }}>
-          <div className="relative h-full" style={{ border: '8px solid white', boxShadow: '0 0 0 4px black' }}>
+          <div className="relative h-full">
             <Slideshow images={images} />
             <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col items-center justify-center p-8">
               <img src={logo} alt="Logo de votre entreprise" className="w-40 h-40 mb-4" />
@@ -48,14 +48,14 @@ const Login = ({ onLogin }) => {
         </div>
 
         {/* Right Section - Login Form with 3D Double Border */}
-        <div className="md:w-1/2 bg-white p-8 flex items-center justify-center" style={{ border: '8px solid white', boxShadow: '0 0 0 4px black' }}>
+        <div className="md:w-1/2 bg-white p-8 flex items-center justify-center">
           <div className="w-full p-6">
             <h2 className="text-3xl font-bold text-center mb-8">Connexion</h2>
 
             <form onSubmit={handleLogin} className="space-y-6">
               {error && <p className="text-red-500 text-center">{error}</p>}
               <div>
-                <label className="block mb-2 text-xl font-bold text-gray-700">Nom d utilisateur</label>
+                <label className="block mb-2 text-xl font-bold text-gray-700">Nom d&apos;utilisateur</label>
                 <input
                   type="text"
                   value={username}
@@ -76,7 +76,7 @@ const Login = ({ onLogin }) => {
                   required
                 />
               </div>
-              <div className="flex justify-center">
+              <div className="flex flex-col items-center space-y-4">
                 <button
                   type="submit"
                   className={`px-6 py-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -85,6 +85,7 @@ const Login = ({ onLogin }) => {
                 >
                   {loading ? 'Connexion en cours...' : 'Connexion'}
                 </button>
+                <p className="text-gray-700">Vous n&apos;avez pas un compte ? <a href="taouiabdelkarim@paciolinova.com" className="text-blue-500 hover:underline">Contactez-nous !</a></p>
               </div>
             </form>
           </div>
