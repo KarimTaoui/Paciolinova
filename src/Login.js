@@ -1,7 +1,6 @@
-// Login.js
 import React, { useState } from 'react';
 import logo from './assets/paciolinova.png'; // Import your logo image
-import loginBackground from './assets/back01.jpg'; // Import login page background image
+
 import layoutBackground1 from './assets/back1.png'; // Import layout background images
 import layoutBackground2 from './assets/back2.png';
 import layoutBackground3 from './assets/back.jpg';
@@ -29,26 +28,28 @@ const Login = ({ onLogin }) => {
   const images = [layoutBackground1, layoutBackground2, layoutBackground3];
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center" style={{ backgroundImage: `url(${loginBackground})`, backgroundSize: 'cover' }}>
+    <div className="relative min-h-screen flex items-center justify-center" style={{ backgroundColor: 'rgb(21, 21, 21)' }}>
       {/* Overlay */}
       <div className="absolute inset-0 bg-black opacity-10"></div>
 
       {/* Login Layout */}
-      <div className="relative max-w-6xl w-full bg-white bg-opacity-99 rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row z-10 border border-black shadow-2xl">
+      <div className="relative max-w-6xl w-full bg-white bg-opacity-99 rounded-lg overflow-hidden flex flex-col md:flex-row z-10 shadow-2xl">
 
-        {/* Left Section - Logo and App Info */}
+        {/* Left Section - Slideshow with 3D Double Border */}
         <div className="md:w-1/2 relative overflow-hidden" style={{ height: '500px' }}>
-          <Slideshow images={images} />
-          <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col items-center justify-center p-8">
-            <img src={logo} alt="Logo de votre entreprise" className="w-40 h-40 mb-4" />
-            <h2 className="text-3xl font-bold text-center text-white mb-4">Bienvenue dans Paciolinova</h2>
-            <p className="text-lg text-center text-white font-bold text-base">Simplifiez vos tâches comptables avec notre chatbot intelligent</p>
+          <div className="relative h-full" style={{ border: '8px solid white', boxShadow: '0 0 0 4px black' }}>
+            <Slideshow images={images} />
+            <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col items-center justify-center p-8">
+              <img src={logo} alt="Logo de votre entreprise" className="w-40 h-40 mb-4" />
+              <h2 className="text-3xl font-bold text-center text-white mb-4">Bienvenue dans Paciolinova</h2>
+              <p className="text-lg text-center text-white font-bold text-base">Simplifiez vos tâches comptables avec notre chatbot intelligent</p>
+            </div>
           </div>
         </div>
 
-        {/* Right Section - Login Form */}
-        <div className="md:w-1/2 bg-white p-8 flex items-center justify-center">
-          <div className="w-full">
+        {/* Right Section - Login Form with 3D Double Border */}
+        <div className="md:w-1/2 bg-white p-8 flex items-center justify-center" style={{ border: '8px solid white', boxShadow: '0 0 0 4px black' }}>
+          <div className="w-full p-6">
             <h2 className="text-3xl font-bold text-center mb-8">Connexion</h2>
 
             <form onSubmit={handleLogin} className="space-y-6">
@@ -80,6 +81,7 @@ const Login = ({ onLogin }) => {
                   type="submit"
                   className={`px-6 py-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   disabled={loading}
+                  aria-busy={loading ? 'true' : 'false'}
                 >
                   {loading ? 'Connexion en cours...' : 'Connexion'}
                 </button>
@@ -87,7 +89,6 @@ const Login = ({ onLogin }) => {
             </form>
           </div>
         </div>
-
       </div>
     </div>
   );
