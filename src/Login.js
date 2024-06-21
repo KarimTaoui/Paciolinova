@@ -19,7 +19,7 @@ const Login = ({ onLogin }) => {
       if (username === 'admin' && password === 'admin') {
         onLogin();
       } else {
-        setError("Nom d&apos;utilisateur ou mot de passe incorrect");
+        setError("Nom d'utilisateur ou mot de passe incorrect");
       }
       setLoading(false);
     }, 1000);
