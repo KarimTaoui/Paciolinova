@@ -41,7 +41,7 @@ const Login = ({ onLogin }) => {
             <Slideshow images={images} />
             <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col items-center justify-center p-8">
               <img src={logo} alt="Logo de votre entreprise" className="w-40 h-40 mb-4" />
-              <h2 className="text-3xl font-bold text-center text-white mb-4">Bienvenue dans Paciolinova</h2>
+              <h2 className="text-3xl font-bold text-center text-white mb-4">Bienvenue sur Paciolinova</h2>
               <p className="text-lg text-center text-white font-bold text-base">Simplifiez vos tâches comptables avec notre chatbot intelligent</p>
             </div>
           </div>
