@@ -58,15 +58,19 @@
   /* SideBar Nav */
 /* Add these styles to your CSS file */
 .bg-space {
-  background-color: #000000; /* Space-like dark background color */
+  background-image: url("assets/baba.jpg"); /* Replace 'path/to/your/image.jpg' with your image path */
+  background-size: cover; /* Ensures the background image covers the entire element */
+  background-repeat: no-repeat; /* Prevents the background image from repeating */
+  /* You can also add other background properties like position and attachment if needed */
 }
 
+
 .bg-dark-blue {
-  background-color: #191919; /* Dark blue for the app bar */
+  background-color: #0c0c0c; /* Dark blue for the app bar */
 }
 
 .bg-blue-500 {
-  background-color: #191919; /* Blue color for buttons */
+  background-color: #0c0c0c; /* Blue color for buttons */
 }
 
 .text-white {
@@ -113,15 +117,14 @@
   /* CHATVIEW */
   .chatview {
     @apply flex flex-col h-screen duration-300 overflow-hidden relative;
-    background-color: #dad7d7; /* Light blue in light mode */
-    --tw-bg-opacity: 1; /* Ensures Tailwind's opacity utility doesn't interfere */
-  
-    /* Dark mode */
-    @media (prefers-color-scheme: dark) {
-      background-color: rgb(51, 51, 51); /* Dark grey in dark mode */
-      --tw-bg-opacity: 1; /* Ensures Tailwind's opacity utility doesn't interfere */
-    }
+     /* Replace with your image path */
+    background-image: url("assets/bi.jpg");
+    background-size: cover; /* Ensure the background image covers the entire element */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-color: rgba(213, 212, 212, 0.5); /* Adjust the opacity (last value) as needed */
   }
+  
+  
   
   .chatview__chatarea {
     @apply flex-grow w-full overflow-y-scroll flex flex-col shadow-md;
@@ -166,7 +169,7 @@
 /* ChatMessage */
 .message {
   @apply py-5 gap-2 flex items-start justify-end;
-  background-color: #dad7d7; /* Change to your desired background color */
+  background-color: rgba(218, 215, 215, 0); /* Adjust the RGB values and opacity (0.8) as needed */
   color: #c44d4d; /* Change to your desired text color */
 }
 
@@ -177,7 +180,9 @@
 
   .message__markdown {
     @apply text-sm text-slate-700 whitespace-pre-wrap dark:text-slate-200;
+    color: #000000; /* Change this color to your desired text color */
   }
+  
 
   .message__createdAt {
     font-size: 10px;
@@ -368,4 +373,22 @@
 
 .animate-logo {
   animation: fadeInUp 0.5s ease-out;
+}
+/* styles.css ou un fichier CSS de votre choix */
+/* styles.css ou un fichier CSS de votre choix */
+
+/* Styles généraux pour les modales */
+/* styles.css */
+
+/* Modal content */
+.modal-content {
+  background-color: #333; /* Change this to your desired background color */
+  color: #fff; /* Text color for modal content */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Overlay background */
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
 }
