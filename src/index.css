@@ -56,40 +56,73 @@
   }
 
   /* SideBar Nav */
-  .nav {
-    @apply flex justify-around;
-  }
+/* Add these styles to your CSS file */
+.bg-space {
+  background-color: #000000; /* Space-like dark background color */
+}
 
-  .nav__item {
-    @apply px-4 py-3 flex items-center gap-x-4 w-full 
-    rounded-md cursor-pointer 
-    hover:bg-light-white
-    text-slate-700 text-base;
-  }
+.bg-dark-blue {
+  background-color: #191919; /* Dark blue for the app bar */
+}
 
-  .nav__icons {
-    @apply cursor-pointer duration-300 text-slate-700
-    text-xl;
-  }
+.bg-blue-500 {
+  background-color: #191919; /* Blue color for buttons */
+}
 
-  .nav__bottom {
-    @apply flex flex-col justify-end h-full;
-  }
+.text-white {
+  color: #ffffff; /* White text color */
+}
 
-  .nav__msg {
-    @apply flex bg-yellow-900 rounded-xl p-4 text-white;
-  }
+.sidebar__btn-icon {
+  font-size: 24px;
+}
 
-  .nav__p {
-    @apply font-mono;
-  }
+.nav__icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.nav__item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: background-color 0.3s;
+}
+
+.nav__item:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.nav__middle {
+  flex-grow: 1; /* Ensures it takes up available space */
+}
+
+.nav__bottom {
+  margin-top: auto; /* Pushes the bottom section to the bottom */
+}
+
+.mr-2 {
+  margin-right: 0.5rem; /* Add space between icon and text */
+}
+
 
   /* CHATVIEW */
   .chatview {
-    @apply flex flex-col h-screen duration-300 overflow-hidden relative bg-slate-100
-  dark:bg-light-grey;
+    @apply flex flex-col h-screen duration-300 overflow-hidden relative;
+    background-color: #dad7d7; /* Light blue in light mode */
+    --tw-bg-opacity: 1; /* Ensures Tailwind's opacity utility doesn't interfere */
+  
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      background-color: rgb(51, 51, 51); /* Dark grey in dark mode */
+      --tw-bg-opacity: 1; /* Ensures Tailwind's opacity utility doesn't interfere */
+    }
   }
-
+  
   .chatview__chatarea {
     @apply flex-grow w-full overflow-y-scroll flex flex-col shadow-md;
   }
@@ -113,7 +146,7 @@
   }
 
   .chatview__textarea-message {
-    @apply bg-light-white ml-0 sm:ml-2 dark:bg-light-grey sm:w-full grow p-2 w-full
+    @apply bg-light-grey ml-0 sm:ml-2 dark:bg-light-grey sm:w-full grow p-2 w-full
     border-2 border-slate-400 dark:border-slate-500 overflow-y-hidden mx-2 focus:outline-none
     resize-y rounded-xl;
   }
@@ -133,8 +166,8 @@
 /* ChatMessage */
 .message {
   @apply py-5 gap-2 flex items-start justify-end;
-  background-color: #ffffff; /* Change to your desired background color */
-  color: #333; /* Change to your desired text color */
+  background-color: #dad7d7; /* Change to your desired background color */
+  color: #c44d4d; /* Change to your desired text color */
 }
 
 
