@@ -58,7 +58,7 @@
   /* SideBar Nav */
 /* Add these styles to your CSS file */
 .bg-space {
-  background-image: url("assets/baba.jpg"); /* Replace 'path/to/your/image.jpg' with your image path */
+  background-image: url("assets/baba.png"); /* Replace 'path/to/your/image.jpg' with your image path */
   background-size: cover; /* Ensures the background image covers the entire element */
   background-repeat: no-repeat; /* Prevents the background image from repeating */
   /* You can also add other background properties like position and attachment if needed */
@@ -182,13 +182,10 @@
     @apply text-sm text-slate-700 whitespace-pre-wrap dark:text-slate-200;
     color: #000000; /* Change this color to your desired text color */
   }
-  
-
   .message__createdAt {
     font-size: 10px;
     @apply font-thin italic text-slate-600 dark:text-slate-300;
   }
-
   .message__pic {
     @apply h-8 w-8 bg-slate-200 mx-2 rounded-full flex items-center justify-center text-xl;
   }
