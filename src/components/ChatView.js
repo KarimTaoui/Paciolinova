@@ -1,18 +1,19 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import ChatMessage from './ChatMessage';
 import { ChatContext } from '../context/chatContext';
-import { MdSend, MdMic, MdLightbulbOutline } from 'react-icons/md'; // Changed icon to MdLightbulbOutline
+import { MdSend, MdMic, MdLightbulbOutline } from 'react-icons/md';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import Modal from './Modal';
 import Setting from './Setting';
 import PromptPerfect from './PromptPerfect';
-import 'moment/locale/fr'; // Import the French localization module
+import AmortissementForm from './AmortissementForm';
+import 'moment/locale/fr';
 
 const ChatView = () => {
   const messagesEndRef = useRef();
   const inputRef = useRef();
-  const suggestionsRef = useRef(); // Ref to track the suggestions dropdown
+  const suggestionsRef = useRef();
   const [formValue, setFormValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [messages, addMessage] = useContext(ChatContext);
@@ -21,12 +22,15 @@ const ChatView = () => {
   const [prompt, setPrompt] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [promptSuggestions] = useState([
-    "Calculer la formule de ....",
-    "donne-moi le compte numéro 103",
-    "quelle est la définition de la comptabilité ?"
+    "Calculer l'amortissement linéaire",
+    "Calculer l'amortissement progressif",
+    "Calculer l'amortissement dégressif"
+ 
   ]);
   const [isRecording, setIsRecording] = useState(false);
-  const [activeButton, setActiveButton] = useState(null); // Track active button state
+  const [activeButton, setActiveButton] = useState(null);
+  const [amortissementType, setAmortissementType] = useState(null); // Type d'amortissement sélectionné
+  const [settingModalOpen, setSettingModalOpen] = useState(false); // État pour gérer l'ouverture du modal de paramètres
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -56,7 +60,7 @@ const ChatView = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://karimou-74f1922470da.herokuapp.com/chatbot', {
+      const response = await fetch('http://127.0.0.1:5000/chatbot', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +81,7 @@ const ChatView = () => {
       updateMessage("Sorry, there was an error processing your request.", true);
     } finally {
       setLoading(false);
-      setActiveButton(null); // Reset active button after sending message
+      setActiveButton(null);
     }
   };
 
@@ -108,7 +112,7 @@ const ChatView = () => {
 
     recognition.onend = () => {
       setIsRecording(false); 
-      setActiveButton(null); // Reset active button
+      setActiveButton(null);
     };
 
     recognition.onresult = (event) => {
@@ -117,11 +121,12 @@ const ChatView = () => {
     };
 
     recognition.start();
-    setActiveButton('mic'); // Set active button
+    setActiveButton('mic');
   };
 
   const handleSuggestionSelect = (suggestion) => {
-    sendMessage(null, suggestion);
+    setAmortissementType(suggestion); // Enregistrer le type d'amortissement sélectionné
+    setModalOpen(true); // Ouvrir le modal d'amortissement
     setShowSuggestions(false);
   };
 
@@ -131,8 +136,14 @@ const ChatView = () => {
   };
 
   const handlePromptSuggestions = () => {
-    setShowSuggestions(!showSuggestions); // Toggle suggestions dropdown visibility
-    setActiveButton('lightbulb'); // Set active button
+    setShowSuggestions(!showSuggestions);
+    setActiveButton('lightbulb');
+  };
+
+  const handleAmortissementSubmit = (attribut1, attribut2, attribut3) => {
+    const message = `${amortissementType.replace("amortissement", "amortissement")} avec ces variables : Coût d'acquisition : ${attribut1} DA , Durée de vie utile : ${attribut2} mois, Valeur résiduelle  : ${attribut3} DA`;
+    sendMessage(null, message);
+    setModalOpen(false); // Fermer le modal d'amortissement
   };
 
   useEffect(() => {
@@ -152,7 +163,7 @@ const ChatView = () => {
     const handleClickOutside = (event) => {
       if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
         setShowSuggestions(false);
-        setActiveButton(null); // Reset active button when clicking outside
+        setActiveButton(null);
       }
     };
 
@@ -242,10 +253,25 @@ const ChatView = () => {
           content="Help me with this prompt!"
         />
       </form>
-      <Modal title="Setting" modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <Modal
+        title={amortissementType ? amortissementType.replace("amortissement", "amortissement") : ''}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      >
+        <AmortissementForm onSubmit={handleAmortissementSubmit} />
       </Modal>
-      <Modal title="Prompt Perfect" modalOpen={modalPromptOpen} setModalPromptOpen={setModalPromptOpen}>
+      <Modal
+        title="Setting"
+        modalOpen={settingModalOpen}
+        setModalOpen={setSettingModalOpen}
+      >
+        <Setting modalOpen={settingModalOpen} setModalOpen={setSettingModalOpen} />
+      </Modal>
+      <Modal
+        title="Prompt Perfect"
+        modalOpen={modalPromptOpen}
+        setModalPromptOpen={setModalPromptOpen}
+      >
         <PromptPerfect
           prompt={prompt}
           onChange={setPrompt}
