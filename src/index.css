@@ -118,7 +118,7 @@
   .chatview {
     @apply flex flex-col h-screen duration-300 overflow-hidden relative;
      /* Replace with your image path */
-    background-image: url("assets/bi.jpg");
+    /* background-image: url("assets/bi.jpg"); */
     background-size: cover; /* Ensure the background image covers the entire element */
     background-repeat: no-repeat; /* Prevent the background image from repeating */
     background-color: rgba(213, 212, 212, 0.5); /* Adjust the opacity (last value) as needed */
