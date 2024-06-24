@@ -121,7 +121,7 @@
     /* background-image: url("assets/bi.jpg"); */
     background-size: cover; /* Ensure the background image covers the entire element */
     background-repeat: no-repeat; /* Prevent the background image from repeating */
-    background-color: rgba(213, 212, 212, 0.5); /* Adjust the opacity (last value) as needed */
+    background-color: rgba(255, 255, 255, 0.5); /* Adjust the opacity (last value) as needed */
   }
   
   
