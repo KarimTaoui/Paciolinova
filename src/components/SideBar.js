@@ -139,7 +139,7 @@ const SideBar = () => {
           </span>
         </div>
 
-        <div onClick={() => openVideoModal("https://www.youtube.com/watch?v=dQw4w9WgXcQ")} className="nav">
+        <div onClick={() => openVideoModal("https://www.youtube.com/watch?v=o9-ObGgfpEk")} className="nav">
           <span 
             className="nav__item bg-blue-500 text-white flex items-center cursor-pointer"
             aria-label="Vidéo explicative"
