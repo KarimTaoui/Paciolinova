@@ -44,7 +44,7 @@
   }
 
   .sidebar__btn-close {
-    @apply cursor-pointer duration-300 text-white justify-end;
+    @apply cursor-pointer duration-300 text-black justify-end;
   }
 
   .sidebar__btn-icon {
@@ -66,15 +66,15 @@
 
 
 .bg-dark-blue {
-  background-color: #0c0c0c; /* Dark blue for the app bar */
+  background-color: #ffffff; /* Dark blue for the app bar */
 }
 
 .bg-blue-500 {
-  background-color: #0c0c0c; /* Blue color for buttons */
+  background-color: #ffffff; /* Blue color for buttons */
 }
 
 .text-white {
-  color: #ffffff; /* White text color */
+  color: #000000; /* White text color */
 }
 
 .sidebar__btn-icon {
