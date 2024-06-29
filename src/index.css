@@ -66,16 +66,16 @@
 
 
 .bg-dark-blue {
-  background-color: #ffffff; /* Dark blue for the app bar */
+  background-color: #4c4b4b; /* Dark blue for the app bar */
 }
 
 .bg-blue-500 {
-  background-color: #ffffff; /* Blue color for buttons */
+  background-color: #4c4b4b; /* Blue color for buttons */
 }
 
-/* .text-white {
+.text-white {
   color: #ffffff; /* White text color */
-} */
+} 
 
 .sidebar__btn-icon {
   font-size: 24px;
