@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { MdChevronLeft, MdChevronRight, MdAdd, MdHelpOutline, MdAttachMoney, MdAccountBalance, MdReceipt, MdVideoLibrary } from 'react-icons/md';
+import { MdChevronLeft, MdChevronRight, MdAdd, MdHelpOutline,MdDescription, MdReceipt, MdVideoLibrary,MdCompareArrows,MdBarChart    } from 'react-icons/md';
+
 import { ChatContext } from '../context/chatContext';
 import logo from '../assets/logo.png';
 import Modal from './Modal';
@@ -59,10 +60,10 @@ const SideBar = () => {
               <img width="30" src={logo} alt="Logo" />
             </span>
           </div>
-          <h1 className={`sidebar__app-title ${!open && 'scale-0 hidden'} text-white`}>RAHIMA</h1>
+          <h1 className={`white sidebar__app-title ${!open && 'scale-0 hidden'} text-white`}>RAHIMA</h1>
         </div>
         <div 
-          className="sidebar__btn-close cursor-pointer text-white" 
+          className="white sidebar__btn-close cursor-pointer text-white" 
           onClick={() => setOpen(!open)}
           aria-label="Toggle sidebar"
           title="Toggle sidebar"
@@ -77,7 +78,7 @@ const SideBar = () => {
 
       <div className="nav">
         <span 
-          className="border nav__item border-neutral-600 mb-14 bg-blue-500 text-white flex items-center cursor-pointer"
+          className="white border nav__item border-neutral-600 mb-14 bg-blue-500 text-white flex items-center cursor-pointer"
           onClick={clearChat}
           aria-label="Nouvelle conversation"
           title="Nouvelle conversation"
@@ -96,10 +97,10 @@ const SideBar = () => {
           aria-label="Comptabilité"
           title="Comptabilité"
         >
-          <div className="nav__icons mr-2">
-            <MdAttachMoney />
+          <div className="white nav__icons mr-2">
+            <MdBarChart    />
           </div>
-          <h1 className={`${!open && 'hidden'}`}>Comptabilité</h1>
+          <h1 className={`white ${!open && 'hidden'}`}>Traduction des états financiers</h1>
         </span>
         <span 
           className="border nav__item border-neutral-600 block mb-4 bg-blue-500 text-white flex items-center cursor-pointer"
@@ -107,10 +108,10 @@ const SideBar = () => {
           aria-label="Finance"
           title="Finance"
         >
-          <div className="nav__icons mr-2">
-            <MdAccountBalance />
+          <div className="white nav__icons mr-2">
+            <MdCompareArrows />
           </div>
-          <h1 className={`${!open && 'hidden'}`}>Finance</h1>
+          <h1 className={`white ${!open && 'hidden'}`}>Conversion entre systémes comptables</h1>
         </span>
         <span 
           className="border nav__item border-neutral-600 block mb-4 bg-blue-500 text-white flex items-center cursor-pointer"
@@ -118,10 +119,10 @@ const SideBar = () => {
           aria-label="Scanner des factures"
           title="Scanner des factures"
         >
-          <div className="nav__icons mr-2">
+          <div className="white nav__icons mr-2">
             <MdReceipt />
           </div>
-          <h1 className={`${!open && 'hidden'}`}>Scanner des factures</h1>
+          <h1 className={`white ${!open && 'hidden'}`}>Scanner des factures</h1>
         </span>
       </div>
 
@@ -132,23 +133,23 @@ const SideBar = () => {
             aria-label="Aide"
             title="À propos de Rahima"
           >
-            <div className="nav__icons mr-2">
+            <div className="white nav__icons mr-2">
               <MdHelpOutline />
             </div>
-            <h1 className={`${!open && 'hidden'}`}>À propos de Rahima</h1>
+            <h1 className={`white ${!open && 'hidden'}`}>À propos de Rahima</h1>
           </span>
         </div>
 
-        <div onClick={() => openVideoModal("https://www.youtube.com/watch?v=o9-ObGgfpEk")} className="nav">
+        <div onClick={() => openVideoModal("https://www.youtube.com/watch?v=dQw4w9WgXcQ")} className="nav">
           <span 
             className="nav__item bg-blue-500 text-white flex items-center cursor-pointer"
             aria-label="Vidéo explicative"
             title="Vidéo explicative"
           >
-            <div className="nav__icons mr-2">
+            <div className="white nav__icons mr-2">
               <MdVideoLibrary />
             </div>
-            <h1 className={`${!open && 'hidden'}`}>Vidéo explicative</h1>
+            <h1 className={`white ${!open && 'hidden'}`}>Vidéo explicative</h1>
           </span>
         </div>
       </div>
@@ -157,33 +158,47 @@ const SideBar = () => {
         <Setting modalOpen={modalOpen} setModalOpen={setModalOpen} />
       </Modal>
 
-      <Modal title="En cours de Développement" modalOpen={devModalOpen} setModalOpen={setDevModalOpen}>
-        <div className="p-4">
-          <p>Cette fonctionnalité est actuellement en cours de développement.</p>
-        </div>
-      </Modal>
-
       <Modal title="À propos de Rahima" modalOpen={helpModalOpen} setModalOpen={setHelpModalOpen}>
-        <div className="p-4">
-          <p>Rahima est un chatbot spécialisé dans le domaine de la comptabilité en Algérie. Voici quelques-unes des fonctionnalités de Rahima :</p>
-          {/* Détails sur Rahima */}
-        </div>
-      </Modal>
+  <div className="p-4 text-black">
+    <p>Rahima est un chatbot spécialisé dans le domaine de la comptabilité en Algérie. Voici quelques-unes des fonctionnalités de Rahima :</p>
+    <ul className="list-disc ml-6">
+      <li>
+        <strong>Gestion des Factures</strong>: Rahima peut scanner et gérer les factures, les organiser, et les stocker de manière sécurisée. Cela permet aux utilisateurs de suivre leurs dépenses et de gérer leurs documents financiers plus efficacement.
+      </li>
+      <li>
+        <strong>Conseils Financiers</strong>: Rahima offre des conseils financiers personnalisés en fonction des données fournies par l utilisateur. Elle aide à optimiser les budgets, à planifier les dépenses, et à suggérer des économies potentielles.
+      </li>
+      <li>
+        <strong>Rapports Comptables</strong>: Rahima génère des rapports comptables détaillés et automatisés. Ces rapports aident les utilisateurs à comprendre leurs finances, à surveiller leurs performances financières, et à prendre des décisions informées.
+      </li>
+      <li>
+        <strong>Rappels de Paiement</strong>: Rahima envoie des rappels pour les paiements à venir, évitant ainsi les retards et les pénalités. Les utilisateurs peuvent définir des alertes pour diverses transactions financières, assurant une gestion proactive de leurs obligations financières.
+      </li>
+    </ul>
+  </div>
+</Modal>
 
-      <Modal title="Vidéo explicative" modalOpen={videoModalOpen} setModalOpen={handleCloseVideoModal}>
-        <div className="p-4">
-          {videoUrl && (
-            <ReactPlayer
-              url={videoUrl}
-              playing={videoPlaying}
-              controls
-              width="100%"
-              height="400px"
-              onEnded={handleVideoEnded}
-            />
-          )}
-        </div>
-      </Modal>
+<Modal title="En cours de Développement" modalOpen={devModalOpen} setModalOpen={setDevModalOpen}>
+  <div className="p-4 text-black">
+    <p>Cette fonctionnalité est actuellement en cours de développement.</p>
+  </div>
+</Modal>
+
+<Modal title="Vidéo explicative" modalOpen={videoModalOpen} setModalOpen={handleCloseVideoModal}>
+  <div className="p-4 text-black">
+    {videoUrl && (
+      <ReactPlayer
+        url={videoUrl}
+        playing={videoPlaying}
+        controls
+        width="100%"
+        height="400px"
+        onEnded={handleVideoEnded}
+      />
+    )}
+  </div>
+</Modal>
+
     </section>
   );
 };
