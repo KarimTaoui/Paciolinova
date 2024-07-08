@@ -41,16 +41,16 @@ const Login = ({ onLogin }) => {
             <Slideshow images={images} />
             <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col items-center justify-center p-8">
               <img src={logo} alt="Logo de votre entreprise" className="w-40 h-40 mb-4" />
-              <h2 className="text-3xl font-bold text-center text-white mb-4">Bienvenue sur Paciolinova</h2>
-              <p className="text-lg text-center text-white font-bold text-base">Simplifiez vos tâches comptables avec notre chatbot intelligent</p>
+              <h2 className="white text-3xl font-bold text-center text-white mb-4">Bienvenue sur Paciolinova</h2>
+              <p className="white text-lg text-center text-white font-bold text-base">Simplifiez vos tâches comptables avec notre chatbot intelligent</p>
             </div>
           </div>
         </div>
 
         {/* Right Section - Login Form with 3D Double Border */}
-        <div className="md:w-1/2 bg-white p-8 flex items-center justify-center">
-          <div className="w-full p-6">
-            <h2 className="text-3xl font-bold text-center mb-8">Connexion</h2>
+        <div className=" md:w-1/2 bg-white p-8 flex items-center justify-center">
+          <div className=" w-full p-6">
+            <h2 className=" text-3xl font-bold text-center mb-8">Connexion</h2>
 
             <form onSubmit={handleLogin} className="space-y-6">
               {error && <p className="text-red-500 text-center">{error}</p>}
@@ -79,7 +79,7 @@ const Login = ({ onLogin }) => {
               <div className="flex flex-col items-center space-y-4">
                 <button
                   type="submit"
-                  className={`px-6 py-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`px-6 py-4 font-bold text-white bg-blue-400 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   disabled={loading}
                   aria-busy={loading ? 'true' : 'false'}
                 >
@@ -94,5 +94,4 @@ const Login = ({ onLogin }) => {
     </div>
   );
 };
-
 export default Login;
