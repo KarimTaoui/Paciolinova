@@ -66,15 +66,15 @@
 
 
 .bg-dark-blue {
-  background-color: #4c4b4b; /* Dark blue for the app bar */
+  background-color: #545454; /* Dark blue for the app bar */
 }
 
 .bg-blue-500 {
-  background-color: #4c4b4b; /* Blue color for buttons */
+  background-color: #545454; /* Blue color for buttons */
 }
 
 .text-white {
-  color: #ffffff; /* White text color */
+  color: #000000; /* White text color */
 }
 
 .sidebar__btn-icon {
@@ -148,8 +148,9 @@
     @apply rounded-lg shadow-lg bg-cover bg-gray-400 w-[512px] duration-300 ease-out;
   }
 
+  /* Additional styles from your original code */
   .chatview__textarea-message {
-    @apply bg-light-grey ml-0 sm:ml-2 dark:bg-light-grey sm:w-full grow p-2 w-full
+    @apply bg-light-white ml-0 sm:ml-2 dark:bg-light-grey sm:w-full grow p-2 w-full
     border-2 border-slate-400 dark:border-slate-500 overflow-y-hidden mx-2 focus:outline-none
     resize-y rounded-xl;
   }
@@ -169,7 +170,7 @@
 /* ChatMessage */
 .message {
   @apply py-5 gap-2 flex items-start justify-end;
-  background-color: rgba(218, 215, 215, 0); /* Adjust the RGB values and opacity (0.8) as needed */
+  background-color: rgba(188, 6, 6, 0); /* Adjust the RGB values and opacity (0.8) as needed */
   color: #c44d4d; /* Change to your desired text color */
 }
 
@@ -180,7 +181,7 @@
 
   .message__markdown {
     @apply text-sm text-slate-700 whitespace-pre-wrap dark:text-slate-200;
-    color: #000000; /* Change this color to your desired text color */
+    color: #131313; /* Change this color to your desired text color */
   }
   .message__createdAt {
     font-size: 10px;
@@ -379,7 +380,7 @@
 
 /* Modal content */
 .modal-content {
-  background-color: #333; /* Change this to your desired background color */
+  background-color: #ffffff; /* Change this to your desired background color */
   color: #fff; /* Text color for modal content */
   padding: 20px;
   border-radius: 8px;
@@ -388,4 +389,8 @@
 /* Overlay background */
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+}
+.white{
+  color: #ffffff; /* Change color to your desired color */
+  /* Add any other styles you want for the title */
 }
