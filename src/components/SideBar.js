@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { MdChevronLeft, MdChevronRight, MdAdd, MdHelpOutline,MdDescription, MdReceipt, MdVideoLibrary,MdCompareArrows,MdBarChart    } from 'react-icons/md';
+import { MdChevronLeft, MdChevronRight, MdAdd, MdHelpOutline, MdReceipt, MdVideoLibrary,MdCompareArrows,MdBarChart    } from 'react-icons/md';
 
 import { ChatContext } from '../context/chatContext';
 import logo from '../assets/logo.png';
